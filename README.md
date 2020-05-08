@@ -1,6 +1,6 @@
 <h1>
     <img src="docs/input/docs/img/package_icon.svg" alt="Tree" height="100">
-    GitVersion
+    GitVersion 1
 </h1>
 
 Versioning when using git, solved. GitVersion looks at your git history and
