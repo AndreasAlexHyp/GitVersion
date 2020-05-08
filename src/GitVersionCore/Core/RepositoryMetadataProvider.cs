@@ -385,7 +385,7 @@ namespace GitVersion
             }
         }
 
-        public IEnumerable<Tuple<Tag, SemanticVersion>> GetValidVersionTags(string tagPrefixRegex, DateTimeOffset? olderThan = null)
+        public IEnumerable<Tuple<Tag, SemanticVersion>> GetValidVersionTags(string tagPrefixRegex, DateTimeOffset? olderThan = null, string servicePrefix = null)
         {
             var tags = new List<Tuple<Tag, SemanticVersion>>();
 
@@ -394,7 +394,20 @@ namespace GitVersion
                 if (!(tag.PeeledTarget() is Commit commit) || (olderThan.HasValue && commit.When() > olderThan.Value))
                     continue;
 
-                if (SemanticVersion.TryParse(tag.FriendlyName, tagPrefixRegex, out var semver))
+                string friendlyName = tag.FriendlyName;
+                if (servicePrefix != null)
+                {
+                    if (!tag.CanonicalName.StartsWith($"refs/tags/{servicePrefix}"))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        friendlyName = tag.FriendlyName.Replace($"{servicePrefix}/", string.Empty);
+                    }
+                }
+
+                if (SemanticVersion.TryParse(friendlyName, tagPrefixRegex, out var semver))
                 {
                     tags.Add(Tuple.Create(tag, semver));
                 }

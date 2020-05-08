@@ -79,6 +79,9 @@ namespace GitVersion.Model.Configuration
         [YamlMember(Alias = "commit-message-incrementing")]
         public CommitMessageIncrementMode? CommitMessageIncrementing { get; set; }
 
+        [YamlMember(Alias = "service-prefix")]
+        public string ServicePrefix { get; set; }
+
         [YamlMember(Alias = "branches")]
         public Dictionary<string, BranchConfig> Branches
         {

@@ -37,7 +37,7 @@ namespace GitVersion.Common
         SemanticVersion GetCurrentCommitTaggedVersion(GitObject commit, EffectiveConfiguration config);
         SemanticVersion MaybeIncrement(BaseVersion baseVersion, GitVersionContext context);
         IEnumerable<SemanticVersion> GetVersionTagsOnBranch(Branch branch, string tagPrefixRegex);
-        IEnumerable<Tuple<Tag, SemanticVersion>> GetValidVersionTags(string tagPrefixRegex, DateTimeOffset? olderThan = null);
+        IEnumerable<Tuple<Tag, SemanticVersion>> GetValidVersionTags(string tagPrefixRegex, DateTimeOffset? olderThan = null, string servicePrefix = null);
 
         ICommitLog GetCommitLog(Commit baseVersionSource, Commit currentCommit);
         bool GetMatchingCommitBranch(Commit baseVersionSource, Branch branch, Commit firstMatchingCommit);

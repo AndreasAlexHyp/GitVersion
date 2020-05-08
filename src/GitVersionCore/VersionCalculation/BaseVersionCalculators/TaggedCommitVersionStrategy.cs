@@ -28,7 +28,9 @@ namespace GitVersion.VersionCalculation
 
         internal IEnumerable<BaseVersion> GetTaggedVersions(Branch currentBranch, DateTimeOffset? olderThan)
         {
-            var allTags = repositoryMetadataProvider.GetValidVersionTags(Context.Configuration.GitTagPrefix, olderThan);
+            var servicePrefix = Context.FullConfiguration.ServicePrefix;
+
+            var allTags = repositoryMetadataProvider.GetValidVersionTags(Context.Configuration.GitTagPrefix, olderThan, servicePrefix);
 
             var tagsOnBranch = currentBranch
                 .Commits
@@ -36,7 +38,7 @@ namespace GitVersion.VersionCalculation
                 .Select(t =>
                 {
                     if (t.Item1.PeeledTarget() is Commit)
-                        return new VersionTaggedCommit(t.Item1.PeeledTarget() as Commit, t.Item2, t.Item1.FriendlyName);
+                        return new VersionTaggedCommit(t.Item1.PeeledTarget() as Commit, t.Item2, t.Item1.FriendlyName.Replace($"{servicePrefix}/", string.Empty));
 
                     return null;
                 })
